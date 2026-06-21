@@ -1,0 +1,25 @@
+# Drop this in .github/workflows/ to scan on every push/PR.
+name: Security Scan
+on: [push, pull_request]
+
+jobs:
+  iron-vigil:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write   # to upload SARIF to code scanning
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Iron Vigil scan
+        uses: Iron-Vigil/security-scan@v0
+        with:
+          target: "."
+          fail-on: "high"
+          # iron-vigil-token: ${{ secrets.IRON_VIGIL_TOKEN }}  # optional: send results to your workspace
+
+      - name: Upload SARIF
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: ironvigil-results.sarif

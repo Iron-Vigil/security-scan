@@ -1,0 +1,53 @@
+name: "Iron Vigil Security Scan"
+description: "Scan your repository, dependencies, or a container image for CVEs and fail the build on a severity threshold."
+author: "Iron Vigil"
+branding:
+  icon: "shield"
+  color: "green"
+
+inputs:
+  target:
+    description: "What to scan — a path (e.g. '.'), a directory, or an image ref (e.g. 'alpine:3.18')."
+    required: false
+    default: "."
+  fail-on:
+    description: "Fail the build when a finding at this severity or higher is present (critical|high|medium|low|negligible). Use 'none' to never fail."
+    required: false
+    default: "high"
+  sarif-file:
+    description: "Path to write the SARIF report to (uploadable to GitHub code scanning)."
+    required: false
+    default: "ironvigil-results.sarif"
+  iron-vigil-api:
+    description: "Iron Vigil API base (for optional result submission)."
+    required: false
+    default: "https://api.ironvigil.app"
+  iron-vigil-token:
+    description: "Iron Vigil CI API key. If set, scan results are submitted to your Iron Vigil workspace."
+    required: false
+    default: ""
+
+outputs:
+  sarif-file:
+    description: "Path to the generated SARIF report."
+    value: ${{ inputs.sarif-file }}
+  critical:
+    description: "Number of critical findings."
+    value: ${{ steps.scan.outputs.critical }}
+  high:
+    description: "Number of high findings."
+    value: ${{ steps.scan.outputs.high }}
+
+runs:
+  using: "composite"
+  steps:
+    - id: scan
+      shell: bash
+      env:
+        IV_TARGET: ${{ inputs.target }}
+        IV_FAIL_ON: ${{ inputs.fail-on }}
+        IV_SARIF: ${{ inputs.sarif-file }}
+        IV_API: ${{ inputs.iron-vigil-api }}
+        IV_TOKEN: ${{ inputs.iron-vigil-token }}
+        IV_ACTION_PATH: ${{ github.action_path }}
+      run: ${{ github.action_path }}/scan.sh
