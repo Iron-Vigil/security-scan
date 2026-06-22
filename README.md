@@ -1,6 +1,21 @@
-# Iron Vigil Security Scan
+<p align="center">
+  <img src=".github/banner.png" alt="Iron Vigil Security Scan" width="760">
+</p>
 
-A GitHub Action that scans your repository, dependencies, or a container image for known CVEs and fails the build on a severity threshold you choose. Powered by [Anchore grype](https://github.com/anchore/grype).
+<h1 align="center">Iron Vigil Security Scan</h1>
+
+<p align="center">
+  Scan your repository, dependencies, or a container image for known CVEs —<br/>
+  and fail the build on a severity threshold you choose.
+</p>
+
+<p align="center">
+  <a href="https://github.com/Iron-Vigil/security-scan/tags"><img src="https://img.shields.io/github/v/tag/Iron-Vigil/security-scan?label=release&color=0fb87a" alt="release"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-0fb87a" alt="MIT"></a>
+  <a href="https://github.com/anchore/grype"><img src="https://img.shields.io/badge/engine-grype-0fb87a" alt="grype"></a>
+</p>
+
+Powered by [Anchore grype](https://github.com/anchore/grype).
 
 - Scans a path, a directory, or a container image ref
 - Writes a [SARIF](https://docs.github.com/en/code-security/code-scanning/integrating-with-code-scanning/sarif-support-for-code-scanning) report you can upload to GitHub code scanning
@@ -223,7 +238,7 @@ uses: Iron-Vigil/security-scan@v0.1.0  # exact release
 uses: Iron-Vigil/security-scan@<sha>   # pin a commit (strictest supply-chain)
 ```
 
-`@v0` tracks the latest backward-compatible release. Pin to a tag or commit SHA if you want fully reproducible runs.
+`@v0` tracks the latest backward-compatible release. Pin to a tag or commit SHA if you want fully reproducible runs. See [CHANGELOG.md](CHANGELOG.md) for what's in each release.
 
 ## How it works
 
